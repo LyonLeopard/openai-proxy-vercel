@@ -31,7 +31,7 @@ async def proxy(request: Request, path):
                     return Response(
                         content=response_content,
                         status_code=response.status,
-                        headers=dict(response.headers)
+                        # headers=dict(response.headers)
                     )
             except Exception as e:
                 logger.error(f"Error during forwarding request: {e.__str__()}")
