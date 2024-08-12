@@ -26,11 +26,18 @@ async def proxy(request: Request, path):
                         },
                         data=await request.body() if request.method != "GET" else None,
                 ) as response:
+                    response_content = await response.read()
+                    log(response_content)
                     return Response(
-                        content=await response.read(),
+                        content=response_content,
                         status_code=response.status,
                         headers=dict(response.headers)
                     )
             except Exception as e:
                 logger.error(f"Error during forwarding request: {e.__str__()}")
                 return Response("Internal server error", status_code=500)
+
+
+def log(bytes_string: bytes) -> None:
+    json_string = bytes_string.decode("utf-8")
+    logger.info(json_string)
